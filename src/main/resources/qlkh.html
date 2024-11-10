@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hệ thống Quản lý Khóa học</title>
+    <link rel="stylesheet" href="qlkh.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Hệ thống Quản lý Khóa học</h1>
+        <div class="tabs">
+          <button class="tab active" data-tab="courses">Khóa học</button>
+          <button class="tab" data-tab="students">Học viên</button>
+          <button class="tab" data-tab="instructors">Giảng viên</button>
+          <button class="tab" data-tab="registrations">Đăng ký</button>
+        </div>
+      </div>
+
+      <!-- Tab Khóa học -->
+      <div id="courses" class="tab-content active">
+        <div class="search-bar">
+          <input type="text" placeholder="Tìm kiếm khóa học..." />
+          <button
+            class="btn btn-primary btn-add-course"
+            data-modal="courseModal"
+          >
+            + Thêm khóa học
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Tên khóa học</th>
+              <th>Mô tả</th>
+              <th>Ngày bắt đầu</th>
+              <th>Ngày kết thúc</th>
+              <th>Giảng viên</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>React Advanced</td>
+              <td>Khóa học React nâng cao</td>
+              <td>01/01/2024</td>
+              <td>01/03/2024</td>
+              <td>Nguyễn Văn A</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-icon btn-edit">✎</button>
+                  <button class="btn-icon btn-delete">×</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab Học viên -->
+      <div id="students" class="tab-content">
+        <div class="search-bar">
+          <input type="text" placeholder="Tìm kiếm học viên..." />
+          <button
+            class="btn btn-primary btn-add-student"
+            data-modal="studentModal"
+          >
+            + Thêm học viên
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Số điện thoại</th>
+              <th>Ngày đăng ký</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Lê Văn C</td>
+              <td>levanc@email.com</td>
+              <td>0123456789</td>
+              <td>15/01/2024</td>
+              <td>
+                <div class="action-buttons">
+                  <button
+                    class="btn-icon btn-edit"
+                    onclick="showModal('editStudentModal')"
+                  >
+                    ✎
+                  </button>
+                  <button class="btn-icon btn-delete">×</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab Giảng viên -->
+      <div id="instructors" class="tab-content">
+        <div class="search-bar">
+          <input type="text" placeholder="Tìm kiếm giảng viên..." />
+          <button
+            class="btn btn-primary btn-add-instructor"
+            data-modal="instructorModal"
+          >
+            + Thêm giảng viên
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Số điện thoại</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Nguyễn Văn A</td>
+              <td>nguyenvana@email.com</td>
+              <td>0123456789</td>
+              <td>
+                <div class="action-buttons">
+                  <button
+                    class="btn-icon btn-edit"
+                    onclick="showModal('editInstructorModal')"
+                  >
+                    ✎
+                  </button>
+                  <button class="btn-icon btn-delete">×</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab Đăng ký -->
+      <div id="registrations" class="tab-content">
+        <div class="registration-form">
+          <h2>Đăng ký khóa học</h2>
+          <form>
+            <div class="form-group">
+              <label>Họ tên học viên</label>
+              <input type="text" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" required />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="tel" required />
+            </div>
+            <div class="form-group">
+              <label>Khóa học</label>
+              <select required>
+                <option value="">Chọn khóa học</option>
+                <option value="1">React Advanced</option>
+                <option value="2">Vue.js Cơ bản</option>
+              </select>
+            </div>
+            <div class="form-footer">
+              <button type="submit" class="btn btn-primary">Đăng ký</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal Thêm khóa học -->
+      <div id="courseModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Thêm khóa học mới</h2>
+            <span class="close" onclick="hideModal('courseModal')"
+              >&times;</span
+            >
+          </div>
+          <form>
+            <div class="form-group">
+              <label>Tên khóa học</label>
+              <input type="text" required />
+            </div>
+            <div class="form-group">
+              <label>Mô tả</label>
+              <textarea rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Ngày bắt đầu</label>
+              <input type="date" required />
+            </div>
+            <div class="form-group">
+              <label>Ngày kết thúc</label>
+              <input type="date" required />
+            </div>
+            <div class="form-group">
+              <label>Giảng viên</label>
+              <select required>
+                <option value="">Chọn giảng viên</option>
+                <option value="1">Nguyễn Văn A</option>
+                <option value="2">Trần Thị B</option>
+              </select>
+            </div>
+            <div class="form-footer">
+              <button
+                type="button"
+                class="btn btn-cancel"
+                onclick="hideModal('courseModal')"
+              >
+                Hủy
+              </button>
+              <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!--Modal chỉnh sửa khóa học -->
+      <div id="editCourseModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Chỉnh sửa khóa học</h2>
+            <span class="close" onclick="hideModal('editCourseModal')"
+              >&times;</span
+            >
+          </div>
+          <form id="editCourseForm">
+            <div class="form-group">
+              <label>Tên khóa học</label>
+              <input
+                type="text"
+                name="courseName"
+                required
+                value="React Advanced"
+              />
+            </div>
+            <div class="form-group">
+              <label>Mô tả</label>
+              <textarea name="description" rows="3">
+Khóa học React nâng cao</textarea
+              >
+            </div>
+            <div class="form-group">
+              <label>Ngày bắt đầu</label>
+              <input type="date" name="startDate" required value="2024-01-01" />
+            </div>
+            <div class="form-group">
+              <label>Ngày kết thúc</label>
+              <input type="date" name="endDate" required value="2024-03-01" />
+            </div>
+            <div class="form-group">
+              <label>Giảng viên</label>
+              <select name="instructor" required>
+                <option value="1" selected>Nguyễn Văn A</option>
+                <option value="2">Trần Thị B</option>
+              </select>
+            </div>
+            <div class="form-footer">
+              <button
+                type="button"
+                class="btn btn-cancel"
+                onclick="hideModal('editCourseModal')"
+              >
+                Hủy
+              </button>
+              <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal Thêm học viên -->
+      <div id="studentModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Thêm học viên mới</h2>
+            <span class="close" onclick="hideModal('studentModal')"
+              >&times;</span
+            >
+          </div>
+          <form id="addStudentForm">
+            <div class="form-group">
+              <label>Họ tên</label>
+              <input type="text" name="studentName" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="tel" name="phone" required />
+            </div>
+            <div class="form-group">
+              <label>Ngày sinh</label>
+              <input type="date" name="birthDate" required />
+            </div>
+            <div class="form-group">
+              <label>Địa chỉ</label>
+              <textarea name="address" rows="2"></textarea>
+            </div>
+            <div class="form-footer">
+              <button
+                type="button"
+                class="btn btn-cancel"
+                onclick="hideModal('studentModal')"
+              >
+                Hủy
+              </button>
+              <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal Sửa học viên -->
+      <div id="editStudentModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Sửa thông tin học viên</h2>
+            <span class="close" onclick="hideModal('editStudentModal')"
+              >&times;</span
+            >
+          </div>
+          <form>
+            <div class="form-group">
+              <label>Họ tên</label>
+              <input type="text" required value="Lê Văn C" />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" required value="levanc@email.com" />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="tel" required value="0123456789" />
+            </div>
+            <div class="form-footer">
+              <button
+                type="button"
+                class="btn btn-cancel"
+                onclick="hideModal('editStudentModal')"
+              >
+                Hủy
+              </button>
+              <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal Thêm giảng viên -->
+      <div id="instructorModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Thêm giảng viên mới</h2>
+            <span class="close" onclick="hideModal('instructorModal')"
+              >&times;</span
+            >
+          </div>
+          <form>
+            <div class="form-group">
+              <label>Họ tên</label>
+              <input type="text" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" required />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="tel" required />
+            </div>
+            <div class="form-group">
+              <label>Chuyên môn</label>
+              <input type="text" required />
+            </div>
+            <div class="form-footer">
+              <button
+                type="button"
+                class="btn btn-cancel"
+                onclick="hideModal('instructorModal')"
+              >
+                Hủy
+              </button>
+              <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal Sửa giảng viên -->
+      <div id="editInstructorModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Sửa thông tin giảng viên</h2>
+            <span class="close" onclick="hideModal('editInstructorModal')"
+              >&times;</span
+            >
+          </div>
+          <form>
+            <div class="form-group">
+              <label>Họ tên</label>
+              <input type="text" required value="Nguyễn Văn A" />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" required value="nguyenvana@email.com" />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="tel" required value="0123456789" />
+            </div>
+            <div class="form-group">
+              <label>Chuyên môn</label>
+              <input type="text" required value="React, JavaScript" />
+            </div>
+            <div class="form-footer">
+              <button
+                type="button"
+                class="btn btn-cancel"
+                onclick="hideModal('editInstructorModal')"
+              >
+                Hủy
+              </button>
+              <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="qlkh.js"></script>
+  </body>
+</html>
