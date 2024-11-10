@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=QuanLyKhoaHoc;integratedSecurity=true;
+    url: jdbc:sqlserver://localhost:1433;databaseName=quanlikhoahoc;integratedSecurity=true;
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
