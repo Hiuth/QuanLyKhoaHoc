@@ -12,8 +12,8 @@ public class CourseService {
     private JdbcTemplate jdbcTemplate;
 
     // Gọi stored procedure để hủy đăng ký
-    public void unregisterStudentFromCourse(int studentId, int courseId) {
-        String sql = "{call UnregisterStudentFromCourse(?, ?)}";
-        jdbcTemplate.update(sql, studentId, courseId);
-    }
+//    public void unregisterStudentFromCourse(int studentId, int courseId) {
+//        String sql = "{call UnregisterStudentFromCourse(?, ?)}";
+//        jdbcTemplate.update(sql, studentId, courseId);
+//    }
 }
