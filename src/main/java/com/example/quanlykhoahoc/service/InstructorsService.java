@@ -21,6 +21,13 @@ public class InstructorsService {
         return jdbcTemplate.queryForList(sql);
     }
 
+    public List<Map<String, Object>> searchInstructorsByName(String name) {
+        String sql = "SELECT * FROM instructors WHERE Name LIKE ?";
+        String searchPattern = "%" + name + "%"; // Thêm ký tự % vào trước và sau chuỗi tìm kiếm
+        return jdbcTemplate.queryForList(sql, searchPattern);
+    }
+
+
     //Phương thức addInstructor trả về int vì JdbcTemplate.update() sẽ trả về số bản ghi bị ảnh hưởng sau khi thực hiện lệnh SQL.
     //Nếu INSERT thành công và một bản ghi được thêm vào, giá trị trả về sẽ là 1, đại diện cho một hàng mới đã được thêm vào bảng.
 
@@ -39,4 +46,6 @@ public class InstructorsService {
         String sql = "DELETE FROM Instructors WHERE InstructorID = ?";
         return jdbcTemplate.update(sql, instructorId);
     }
+
+
 }

@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hệ thống Quản lý Khóa học</title>
-    <link rel="stylesheet" href="qlkh.css" />
+    <link rel="stylesheet" href="\QuanLyKhoaHoc\src\main\resources\static\css\qlkh.css" />
+
   </head>
   <body>
     <div class="container">
@@ -112,32 +113,34 @@
             + Thêm giảng viên
           </button>
         </div>
-        <table>
+        <table class="instructors-table">
           <thead>
             <tr>
               <th>Họ tên</th>
               <th>Email</th>
               <th>Số điện thoại</th>
+              <th>Chuyên môn</th>
               <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Nguyễn Văn A</td>
-              <td>nguyenvana@email.com</td>
-              <td>0123456789</td>
-              <td>
-                <div class="action-buttons">
-                  <button
-                    class="btn-icon btn-edit"
-                    onclick="showModal('editInstructorModal')"
-                  >
-                    ✎
-                  </button>
-                  <button class="btn-icon btn-delete">×</button>
-                </div>
-              </td>
-            </tr>
+<!--            <tr>-->
+<!--              <td>Nguyễn Văn A</td>-->
+<!--              <td>nguyenvana@email.com</td>-->
+<!--              <td>0123456789</td>-->
+<!--              <td>-->
+<!--                <div class="action-buttons">-->
+<!--                  <button-->
+<!--                    class="btn-icon btn-edit"-->
+<!--                    onclick="showModal('editInstructorModal')"-->
+<!--                  >-->
+<!--                    ✎-->
+<!--                  </button>-->
+<!--                  <button class="btn-icon btn-delete">×</button>-->
+<!--                </div>-->
+<!--              </td>-->
+<!--            </tr>-->
+
           </tbody>
         </table>
       </div>
@@ -364,7 +367,7 @@ Khóa học React nâng cao</textarea
               >&times;</span
             >
           </div>
-          <form>
+          <form >
             <div class="form-group">
               <label>Họ tên</label>
               <input type="text" required />
@@ -404,22 +407,22 @@ Khóa học React nâng cao</textarea
               >&times;</span
             >
           </div>
-          <form>
+          <form class="updateInstructor">
             <div class="form-group">
               <label>Họ tên</label>
-              <input type="text" required value="Nguyễn Văn A" />
+              <input type="text" id="instructorName" required value="Nguyễn Văn A" />
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="email" required value="nguyenvana@email.com" />
+              <input type="email" required id="instructorEmail" value="nguyenvana@email.com" />
             </div>
             <div class="form-group">
               <label>Số điện thoại</label>
-              <input type="tel" required value="0123456789" />
+              <input type="tel" required id="instructorNumber" value="0123456789" />
             </div>
             <div class="form-group">
               <label>Chuyên môn</label>
-              <input type="text" required value="React, JavaScript" />
+              <input type="text" required id="instructorExpertise" value="React, JavaScript" />
             </div>
             <div class="form-footer">
               <button
@@ -435,7 +438,9 @@ Khóa học React nâng cao</textarea
         </div>
       </div>
     </div>
-
-    <script src="qlkh.js"></script>
+    <script src="\QuanLyKhoaHoc\src\main\resources\static\js\qlkh.js"></script>
+    <script src="\QuanLyKhoaHoc\src\main\resources\static\js\giangvien.js"></script>
+<!--  <script>updateInstructor()</script>-->
+    <script>fetchAllInstructors()</script>
   </body>
 </html>

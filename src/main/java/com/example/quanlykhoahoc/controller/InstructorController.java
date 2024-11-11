@@ -23,6 +23,12 @@ public class InstructorController {
         return ResponseEntity.ok(instructors);
     }
 
+    @GetMapping("/searchInstructor/{name}")
+    public ResponseEntity<List<Map<String, Object>>> searchInstructors(@PathVariable String name) {
+        List<Map<String, Object>> instructors = instructorsService.searchInstructorsByName(name);
+        return ResponseEntity.ok(instructors);
+    }
+
     @PostMapping("/createInstructor")
     public ResponseEntity<?> addInstructor(@RequestBody InstructorDTO instructorDTO) {
         int result = instructorsService.addInstructor(instructorDTO);
