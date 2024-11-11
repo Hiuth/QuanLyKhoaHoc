@@ -34,4 +34,10 @@ public class StudentsService {
         String sql = "DELETE FROM Students WHERE StudentID = ?";
         return jdbcTemplate.update(sql, studentId);
     }
+
+    public List<Map<String, Object>> searchStudentsByName(String name) {
+        String sql = "SELECT * FROM Students WHERE Name LIKE ?";
+        String searchPattern = "%" + name + "%"; // Thêm ký tự % vào trước và sau chuỗi tìm kiếm
+        return jdbcTemplate.queryForList(sql, searchPattern);
+    }
 }

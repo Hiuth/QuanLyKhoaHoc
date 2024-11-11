@@ -22,6 +22,12 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/findStudents/{name}")
+    public ResponseEntity<List<Map<String, Object>>> findStudents(@PathVariable String name) {
+        List<Map<String, Object>> students = studentsService.searchStudentsByName(name);
+        return ResponseEntity.ok(students);
+    }
+
     @PostMapping("/createStudent")
     public ResponseEntity<?> addStudent(@RequestBody StudentDTO studentDTO) {
         int result = studentsService.addStudent(studentDTO);
