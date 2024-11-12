@@ -158,45 +158,42 @@ function deleteCourse() {
         });
 }
 
-function addCourse() {
-    //const id = document.getElementById("courseId").value;
-    const Name = document.getElementById('addCourseName').value;
-    const Description= document.getElementById('addCourseDescription').value;
-    const StarDate = document.getElementById('addCourseStarDate').value;
-    const EndDate = document.getElementById('addCourseEndDate').value;
-    const Tuition = document.getElementById('addCourseTuition').value;
+async function addCourse() {
+    //event.preventDefault();
+
+    const name = document.getElementById('addCourseName').value;
+    const description = document.getElementById('addCourseDescription').value;
+    const startDate = document.getElementById('addCourseStartDate').value;
+    const endDate = document.getElementById('addCourseEndDate').value;
+    const tuition = document.getElementById('addCourseTuition').value;
     const selectElement = document.getElementById('addCourseInstructor');
     const selectedValue = selectElement.value;
-    console.log(Name);
-    const update = {
-        courseName: Name,
-        description: Description,
-        instructorId:selectedValue,
-        starDate: StarDate,
-        endDate: EndDate,
-        tuition: Tuition
-    }
-    console.log(update);
-    const apiUrl = `http://localhost:8099/course/createCourse`;
-    fetch(apiUrl, {
-        method: 'POST', // Sử dụng PUT để cập nhật
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(update), // Chuyển đổi dữ liệu thành JSON
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Lỗi khi cập nhật giảng viên');
-            }
-            //return response.json(); // Chuyển đổi phản hồi sang JSON
-        })
-        .then(data => {
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
+
+    const newCourse = {
+        courseName: name,
+        description: description,
+        instructorId: selectedValue,
+        startDate: startDate,
+        endDate: endDate,
+        tuition: tuition
+    };
+    console.log(newCourse);
+    const apiUrl = 'http://localhost:8099/course/createCourse';
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newCourse)
         });
+        if (!response.ok) throw new Error('Lỗi khi thêm khóa học');
+        console.log("Khóa học đã được thêm thành công");
+    } catch (error) {
+        console.error('Lỗi:', error);
+    }
 }
+
 
 function updateCourse() {
     const id = document.getElementById("courseId").value;
@@ -251,14 +248,14 @@ document.addEventListener("DOMContentLoaded", function () {
             if (e.key === "Enter") {
                 e.preventDefault(); // Ngăn form submit nếu có
                 const query = searchInput.value;
-                findInstructor(query); // Gọi hàm tìm kiếm
+                findCourse(query); // Gọi hàm tìm kiếm
             }
         });
     }
 });
 
 
-function findInstructor() {
+function findCourse() {
     const key = document.getElementById("findInstructor").value;
     const apiUrl = `http://localhost:8099/instructor/searchInstructor/${key}`;
     fetch(apiUrl, {
