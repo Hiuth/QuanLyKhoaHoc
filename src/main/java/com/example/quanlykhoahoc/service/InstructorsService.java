@@ -47,5 +47,10 @@ public class InstructorsService {
         return jdbcTemplate.update(sql, instructorId);
     }
 
+    public Map<String, Object> findInstructorById(String id) {
+        String sql = "SELECT * FROM instructors WHERE InstructorID = ?";
+        return jdbcTemplate.queryForMap(sql, id);
+    }
+
 
 }

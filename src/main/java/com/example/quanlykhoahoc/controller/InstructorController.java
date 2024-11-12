@@ -29,6 +29,12 @@ public class InstructorController {
         return ResponseEntity.ok(instructors);
     }
 
+    @GetMapping("/finInstructorById/{id}")
+    public ResponseEntity<Map<String, Object>> getInstructorById(@PathVariable String id) {
+        Map<String, Object> instructor = instructorsService.findInstructorById(id);
+        return ResponseEntity.ok(instructor);
+    }
+
     @PostMapping("/createInstructor")
     public ResponseEntity<?> addInstructor(@RequestBody InstructorDTO instructorDTO) {
         int result = instructorsService.addInstructor(instructorDTO);
@@ -58,4 +64,6 @@ public class InstructorController {
             return ResponseEntity.status(404).body("Không tìm thấy giảng viên để xóa");
         }
     }
+
+
 }

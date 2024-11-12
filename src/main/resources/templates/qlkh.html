@@ -26,11 +26,12 @@
           <button
             class="btn btn-primary btn-add-course"
             data-modal="courseModal"
+            id="findCourse"
           >
             + Thêm khóa học
           </button>
         </div>
-        <table>
+        <table class="course-table">
           <thead>
             <tr>
               <th>Tên khóa học</th>
@@ -42,19 +43,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>React Advanced</td>
-              <td>Khóa học React nâng cao</td>
-              <td>01/01/2024</td>
-              <td>01/03/2024</td>
-              <td>Nguyễn Văn A</td>
-              <td>
-                <div class="action-buttons">
-                  <button class="btn-icon btn-edit">✎</button>
-                  <button class="btn-icon btn-delete">×</button>
-                </div>
-              </td>
-            </tr>
+<!--            <tr>-->
+<!--              <td>React Advanced</td>-->
+<!--              <td>Khóa học React nâng cao</td>-->
+<!--              <td>01/01/2024</td>-->
+<!--              <td>01/03/2024</td>-->
+<!--              <td>Nguyễn Văn A</td>-->
+<!--              <td>-->
+<!--                <div class="action-buttons">-->
+<!--                  <button class="btn-icon btn-edit">✎</button>-->
+<!--                  <button class="btn-icon btn-delete">×</button>-->
+<!--                </div>-->
+<!--              </td>-->
+<!--            </tr>-->
           </tbody>
         </table>
       </div>
@@ -441,7 +442,9 @@ Khóa học React nâng cao</textarea
     <script src="\QuanLyKhoaHoc\src\main\resources\static\js\qlkh.js"></script>
     <script src="\QuanLyKhoaHoc\src\main\resources\static\js\giangvien.js"></script>
     <script src="\QuanLyKhoaHoc\src\main\resources\static\js\student.js"></script>
+    <script src="\QuanLyKhoaHoc\src\main\resources\static\js\khoahoc.js"></script>
     <script>fetchAllInstructors()</script>
     <script>fetchAllStudent()</script>
+    <script>fetchAllCourse()</script>
   </body>
 </html>

@@ -58,6 +58,7 @@ public class CoursesService {
         String sql = "DELETE FROM Courses WHERE CourseID = ?";
         return jdbcTemplate.update(sql, courseId);
     }
+
 }
 
 // Gọi stored procedure để hủy đăng ký
