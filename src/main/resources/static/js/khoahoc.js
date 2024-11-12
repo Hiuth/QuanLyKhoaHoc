@@ -239,7 +239,7 @@ function updateCourse() {
 
 document.addEventListener("DOMContentLoaded", function () {
     // Lấy các phần tử input và button
-    const searchInput = document.getElementById("findInstructor");
+    const searchInput = document.getElementById("findCourse");
 
     // Kiểm tra xem các phần tử có tồn tại trước khi gán sự kiện
     if (searchInput) {
@@ -255,46 +255,90 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-function findCourse() {
-    const key = document.getElementById("findInstructor").value;
-    const apiUrl = `http://localhost:8099/instructor/searchInstructor/${key}`;
-    fetch(apiUrl, {
-        method: 'GET', // Sử dụng PUT để cập nhật
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Lỗi khi cập nhật giảng viên');
-            }
-            return response.json(); // Chuyển đổi phản hồi sang JSON
-        })
-        .then(data => {
-            const instructorList = document.querySelector('.instructors-table tbody');
-            instructorList.innerHTML = ''; // Xóa nội dung cũ
+// function findCourse() {
+//     const key = document.getElementById("findCourse").value;
+//     const apiUrl = `http://localhost:8099/course/findCourses/${key}`;
+//     fetch(apiUrl, {
+//         method: 'GET', // Sử dụng PUT để cập nhật
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//     })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Lỗi khi cập nhật giảng viên');
+//             }
+//             return response.json(); // Chuyển đổi phản hồi sang JSON
+//         })
+//         .then(data => {
+//             const instructorList = document.querySelector('.instructors-table tbody');
+//             instructorList.innerHTML = ''; // Xóa nội dung cũ
+//
+//             data.forEach(instructor => {
+//                 const row = document.createElement('tr');
+//                 row.innerHTML = `
+//                     <td id="instructName">${instructor.Name}</td>
+//                     <td id="instructEmail">${instructor.Email}</td>
+//                     <td id="instructPhone">${instructor.Phone}</td>
+//                     <td id="instructExpertise">${instructor.Expertise}</td>
+//                     <td>
+//                     <input type="hidden" name="instructorId" id="instructorId" value="${instructor.InstructorID}">
+//                         <div class="action-buttons">
+//                             <button class="btn-icon btn-edit" onclick="showModalInstructor('editInstructorModal',event)">✎</button>
+//                             <button class="btn-icon btn-delete" onclick="deleteInstructor(event)">×</button>
+//                         </div>
+//                     </td>
+//                 `;
+//                 instructorList.appendChild(row); // Thêm row vào tbody
+//             });
+//         })
+//         .catch(error => {
+//             console.error('Lỗi:', error);
+//         });
+// }
 
-            data.forEach(instructor => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td id="instructName">${instructor.Name}</td>
-                    <td id="instructEmail">${instructor.Email}</td>
-                    <td id="instructPhone">${instructor.Phone}</td>
-                    <td id="instructExpertise">${instructor.Expertise}</td>
-                    <td>
-                    <input type="hidden" name="instructorId" id="instructorId" value="${instructor.InstructorID}">
-                        <div class="action-buttons">
-                            <button class="btn-icon btn-edit" onclick="showModalInstructor('editInstructorModal',event)">✎</button>
-                            <button class="btn-icon btn-delete" onclick="deleteInstructor(event)">×</button>
-                        </div>
-                    </td>
-                `;
-                instructorList.appendChild(row); // Thêm row vào tbody
-            });
-        })
-        .catch(error => {
-            console.error('Lỗi:', error);
+async function findCourse() {
+    const key = document.getElementById("findCourse").value;
+    const apiUrl = `http://localhost:8099/course/findCourses/${key}`;
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
         });
+        if (!response.ok) {
+            throw new Error('Lỗi khi gọi API');
+        }
+        const data = await response.json();
+        const courseList = document.querySelector('.course-table tbody');
+        courseList.innerHTML = ''; // Xóa nội dung cũ
+
+        for (const course of data) {
+            const instructorName = await findInstructorById(course.InstructorID);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td id="courseName">${course.CourseName}</td>
+                <td id="courseDescription">${course.Description}</td>
+                <td id="courseStartDate">${course.StartDate}</td>
+                <td id="courseEndDate">${course.EndDate}</td>
+                <td id="courseTuition">${course.Tuition}</td>
+                <td id="courseStatus">${course.Status}</td>
+                <td id="courseInstructorName">${instructorName}</td>
+                <td>
+                    <input type="hidden" name="courseId" id="courseId" value="${course.CourseID}">
+                    <div class="action-buttons">
+                        <button class="btn-icon btn-edit" onclick="showModalCourse('editCourseModal',event)">✎</button>
+                        <button class="btn-icon btn-delete" onclick="deleteCourse(event)">×</button>
+                    </div>
+                </td>
+            `;
+            courseList.appendChild(row); // Thêm row vào tbody
+        }
+    } catch (error) {
+        console.error('Lỗi:', error);
+    }
 }
 
 

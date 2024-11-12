@@ -42,7 +42,7 @@ public class CoursesService {
         params.put("EndDate", courseDTO.getEndDate());
         params.put("Tuition", courseDTO.getTuition());
         params.put("Description", courseDTO.getDescription());
-        params.put("Status", courseDTO.getStatus());
+        params.put("Status", "not");
         params.put("StatusMessage", null); // Output parameter
 
         Map<String, Object> result = createCourseProc.execute(params);
@@ -50,13 +50,19 @@ public class CoursesService {
     }
 
     public int updateCourse(int courseId, CourseDTO courseDTO) {
-        String sql = "UPDATE Courses SET CourseName = ?, Description = ?, InstructorID = ?, StartDate = ?, EndDate = ?, Tuition = ?, Status = ? WHERE CourseID = ?";
-        return jdbcTemplate.update(sql, courseDTO.getCourseName(), courseDTO.getDescription(), courseDTO.getInstructorId(), courseDTO.getStartDate(), courseDTO.getEndDate(), courseDTO.getTuition(), courseDTO.getStatus(), courseId);
+        String sql = "UPDATE Courses SET CourseName = ?, Description = ?, InstructorID = ?, StartDate = ?, EndDate = ?, Tuition = ? WHERE CourseID = ?";
+        return jdbcTemplate.update(sql, courseDTO.getCourseName(), courseDTO.getDescription(), courseDTO.getInstructorId(), courseDTO.getStartDate(), courseDTO.getEndDate(), courseDTO.getTuition(), courseId);
     }
 
     public int deleteCourse(int courseId) {
         String sql = "DELETE FROM Courses WHERE CourseID = ?";
         return jdbcTemplate.update(sql, courseId);
+    }
+
+    public List<Map<String, Object>> searchCoursesByName(String name) {
+        String sql = "SELECT * FROM courses WHERE CourseName LIKE ?";
+        String searchPattern = "%" + name + "%"; // Thêm ký tự % vào trước và sau chuỗi tìm kiếm
+        return jdbcTemplate.queryForList(sql, searchPattern);
     }
 
 }

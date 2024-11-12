@@ -22,6 +22,13 @@ public class CourseController {
         return ResponseEntity.ok(courses);
     }
 
+
+    @GetMapping("/findCourses/{key}")
+    public ResponseEntity<List<Map<String, Object>>> findCourses(@PathVariable String key) {
+        List<Map<String, Object>> courses = coursesService.searchCoursesByName(key);
+        return ResponseEntity.ok(courses);
+    }
+
     @PostMapping("/createCourse")
     public ResponseEntity<String> addCourse(@RequestBody CourseDTO courseDTO) {
         String status = coursesService.addCourse(courseDTO);
