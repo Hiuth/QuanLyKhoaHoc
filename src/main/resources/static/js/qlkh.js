@@ -1,8 +1,5 @@
 // Đợi cho DOM load hoàn tất
-document.addEventListener("DOMContentLoaded", function () {
-  // Khởi tạo tất cả các sự kiện
-  initializeEvents();
-});
+
 
 function initializeEvents() {
   // Xử lý tabs
@@ -11,6 +8,7 @@ function initializeEvents() {
     tab.addEventListener("click", function () {
       const tabId = this.getAttribute("data-tab");
       switchTab(tabId);
+      saveTabState(); // Lưu trạng thái của tab mới
     });
   });
 
@@ -153,4 +151,27 @@ window.addEventListener("click", function (e) {
       hideModal(modal.id);
     }
   });
+});
+
+
+// Lưu trạng thái của tab vào localStorage
+function saveTabState() {
+  const activeTab = document.querySelector('.tab.active');
+  if (activeTab) {
+    localStorage.setItem('activeTab', activeTab.getAttribute('data-tab'));
+  }
+}
+
+// Khôi phục trạng thái của tab từ localStorage
+function restoreTabState() {
+  const activeTabId = localStorage.getItem('activeTab');
+  if (activeTabId) {
+    switchTab(activeTabId);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Khởi tạo tất cả các sự kiện
+  restoreTabState();
+  initializeEvents();
 });

@@ -87,6 +87,9 @@ function deleteInstructor() {
             if (!response.ok) {
                 throw new Error('Lỗi khi xóa giảng viên');
             }
+            if (response.ok) {
+                window.location.reload();
+            }
             //return response.json(); // Chuyển đổi phản hồi sang JSON
         })
         .catch(error => {
@@ -116,6 +119,9 @@ function addInstructor() {
         .then(response => {
             if (!response.ok) {
                 throw new Error('Lỗi khi cập nhật giảng viên');
+            }
+            if (response.ok) {
+                window.location.reload();
             }
             //return response.json(); // Chuyển đổi phản hồi sang JSON
         })
@@ -153,6 +159,9 @@ function updateInstructor() {
         .then(response => {
             if (!response.ok) {
                 throw new Error('Lỗi khi cập nhật giảng viên');
+            }
+            if (response.ok) {
+                window.location.reload();
             }
             return response.json(); // Chuyển đổi phản hồi sang JSON
         })

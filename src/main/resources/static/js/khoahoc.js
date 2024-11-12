@@ -18,7 +18,7 @@ async function findInstructorById(id) {
     }
 }
 
-async function findAllInstructor(name, name2) {
+async function findAllInstructor(name) {
     const apiUrl = `http://localhost:8099/instructor/allInstructor`;
     try {
         const response = await fetch(apiUrl, {
@@ -36,36 +36,22 @@ async function findAllInstructor(name, name2) {
         const selectElement = document.getElementById(element);
         selectElement.innerHTML = ''; // Xóa các tùy chọn cũ
 
-        // Tạo option mặc định "Chọn người hướng dẫn"
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.textContent = 'Chọn người hướng dẫn';
         selectElement.appendChild(defaultOption);
 
-        // Thêm các giảng viên vào select
         data.forEach(instructor => {
             const option = document.createElement('option');
-            option.value = instructor.InstructorID;
-            option.textContent = instructor.Name;
-
-            // Nếu name2 trùng với tên giảng viên, chọn nó
-            if (name2 && option.textContent === name2) {
-                option.selected = true;
-            }
-
+            option.value = instructor.InstructorID; // hoặc khóa chính phù hợp
+            option.textContent = instructor.Name; // hoặc tên trường dữ liệu phù hợp
             selectElement.appendChild(option);
         });
-
-        // Nếu name2 là chuỗi rỗng, chọn option mặc định
-        if (!name2) {
-            defaultOption.selected = true;
-        }
 
     } catch (error) {
         console.error('Lỗi:', error);
     }
 }
-
 
 
 async function fetchAllCourse() {
@@ -141,7 +127,7 @@ function showModalCourse(modalId,event) {
     document.getElementById('courseId').value = instructorId;
 
     const idName = 'CourseInstructor';
-    findAllInstructor(idName, instructorName);
+    findAllInstructor(idName);
 
 }
 // Hàm xóa khóa học
@@ -166,7 +152,10 @@ function deleteCourse() {
             if (!response.ok) {
                 throw new Error('Lỗi khi xóa giảng viên');
             }
-            //return response.json(); // Chuyển đổi phản hồi sang JSON
+            if (response.ok) {
+                window.location.reload();
+            }
+
         })
         .catch(error => {
             console.error('Lỗi:', error);
@@ -174,15 +163,17 @@ function deleteCourse() {
 }
 
 async function addCourse() {
-    //event.preventDefault();
-
     const name = document.getElementById('addCourseName').value;
     const description = document.getElementById('addCourseDescription').value;
     const startDate = document.getElementById('addCourseStartDate').value;
     const endDate = document.getElementById('addCourseEndDate').value;
     const tuition = document.getElementById('addCourseTuition').value;
-    const selectElement = document.getElementById('addCourseInstructor');
-    const selectedValue = selectElement.value;
+    const selectedValue = document.getElementById('addCourseInstructor').value;
+
+    if (!name || !startDate || !endDate || !tuition || !selectedValue) {
+        alert("Vui lòng điền đầy đủ thông tin (Tên, Ngày bắt đầu, Ngày kết thúc, Học phí, Giảng viên).");
+        return; // Ngừng thực hiện nếu thiếu thông tin
+    }
 
     const newCourse = {
         courseName: name,
@@ -192,8 +183,9 @@ async function addCourse() {
         endDate: endDate,
         tuition: tuition
     };
-    //console.log(newCourse);
+
     const apiUrl = 'http://localhost:8099/course/createCourse';
+
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -202,34 +194,60 @@ async function addCourse() {
             },
             body: JSON.stringify(newCourse)
         });
-        if (!response.ok) throw new Error('Lỗi khi thêm khóa học');
-        console.log("Khóa học đã được thêm thành công");
+
+        // Kiểm tra nếu phản hồi là JSON hay text
+        let result;
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+            result = await response.json();
+        } else {
+            result = await response.text();
+        }
+
+        // Xử lý phản hồi dựa trên loại dữ liệu
+        if (!response.ok) {
+            alert(result.statusMessage || result || "Đã xảy ra lỗi.");
+        } else {
+            alert(result.statusMessage || "Thành công!");
+            window.location.reload();
+        }
     } catch (error) {
         console.error('Lỗi:', error);
+        alert("Không thể kết nối đến máy chủ.");
     }
 }
 
 
+
 function updateCourse() {
     const id = document.getElementById('courseId').value;
-    const Name = document.getElementById('updateCourseName').value;
-    const Description= document.getElementById('updateCourseDescription').value;
-    const StarDate = document.getElementById('updateCourseStarDate').value;
-    const EndDate = document.getElementById('updateCourseEndDate').value;
-    const Tuition = document.getElementById('updateCourseTuition').value;
+    const name = document.getElementById('updateCourseName').value;
+    const description = document.getElementById('updateCourseDescription').value;
+    const startDate = document.getElementById('updateCourseStartDate').value;
+    const endDate = document.getElementById('updateCourseEndDate').value;
+    const tuition = document.getElementById('updateCourseTuition').value;
     const selectElement = document.getElementById('CourseInstructor');
     const selectedValue = selectElement.value;
-    //console.log(selectedValue)
-    const update = {
-        courseName: Name,
-        description: Description,
-        instructorId:selectedValue,
-        startDate: StarDate,
-        endDate: EndDate,
-        tuition: Tuition
+
+    if (!name || !startDate || !endDate || !tuition || !selectedValue) {
+        alert("Vui lòng điền đầy đủ thông tin (Tên, Ngày bắt đầu, Ngày kết thúc, Học phí, Giảng viên).");
+        return; // Ngừng thực hiện nếu thiếu thông tin
     }
-    console.log(id,update);
+
+    // Dữ liệu cần cập nhật
+    const update = {
+        courseName: name,
+        description: description,
+        instructorId: selectedValue,
+        startDate: startDate,
+        endDate: endDate,
+        tuition: tuition
+    };
+
+    // URL API
     const apiUrl = `http://localhost:8099/course/updateCourse/${id}`;
+
     fetch(apiUrl, {
         method: 'PUT', // Sử dụng PUT để cập nhật
         headers: {
@@ -239,18 +257,23 @@ function updateCourse() {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Lỗi khi cập nhật giảng viên');
+                throw new Error('Lỗi khi cập nhật khóa học');
             }
-            //return response.json(); // Chuyển đổi phản hồi sang JSON
+            return response.json(); // Chuyển đổi phản hồi sang JSON
         })
         .then(data => {
-            //console.log('Giảng viên đã được cập nhật:', data);
-            // Làm gì đó sau khi cập nhật thành công (ví dụ: cập nhật giao diện)
+            if (data.statusMessage) {
+                // Nếu có statusMessage, hiển thị thông báo
+                alert(data.statusMessage); // Hiển thị thông báo
+                window.location.reload(); // Tải lại trang sau khi cập nhật
+            }
         })
         .catch(error => {
             console.error('Lỗi:', error);
+            alert("Có lỗi khi cập nhật khóa học, vui lòng thử lại.");
         });
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     // Lấy các phần tử input và button
@@ -270,6 +293,47 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// function findCourse() {
+//     const key = document.getElementById("findCourse").value;
+//     const apiUrl = `http://localhost:8099/course/findCourses/${key}`;
+//     fetch(apiUrl, {
+//         method: 'GET', // Sử dụng PUT để cập nhật
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//     })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Lỗi khi cập nhật giảng viên');
+//             }
+//             return response.json(); // Chuyển đổi phản hồi sang JSON
+//         })
+//         .then(data => {
+//             const instructorList = document.querySelector('.instructors-table tbody');
+//             instructorList.innerHTML = ''; // Xóa nội dung cũ
+//
+//             data.forEach(instructor => {
+//                 const row = document.createElement('tr');
+//                 row.innerHTML = `
+//                     <td id="instructName">${instructor.Name}</td>
+//                     <td id="instructEmail">${instructor.Email}</td>
+//                     <td id="instructPhone">${instructor.Phone}</td>
+//                     <td id="instructExpertise">${instructor.Expertise}</td>
+//                     <td>
+//                     <input type="hidden" name="instructorId" id="instructorId" value="${instructor.InstructorID}">
+//                         <div class="action-buttons">
+//                             <button class="btn-icon btn-edit" onclick="showModalInstructor('editInstructorModal',event)">✎</button>
+//                             <button class="btn-icon btn-delete" onclick="deleteInstructor(event)">×</button>
+//                         </div>
+//                     </td>
+//                 `;
+//                 instructorList.appendChild(row); // Thêm row vào tbody
+//             });
+//         })
+//         .catch(error => {
+//             console.error('Lỗi:', error);
+//         });
+// }
 
 async function findCourse() {
     const key = document.getElementById("findCourse").value;

@@ -106,6 +106,9 @@ function deleteEnrollment() {
             if (!response.ok) {
                 throw new Error('Lỗi khi xóa giảng viên');
             }
+            if (response.ok) {
+                window.location.reload();
+            }
             //return response.json(); // Chuyển đổi phản hồi sang JSON
         })
         .catch(error => {

@@ -89,6 +89,9 @@ function deleteStudent() {
             if (!response.ok) {
                 throw new Error('Lỗi khi xóa sinh viên');
             }
+            if (response.ok) {
+                window.location.reload();
+            }
             // Xóa hàng khỏi bảng nếu xóa thành công
             row.remove();
         })
@@ -103,16 +106,24 @@ function addStudent() {
     const Email = document.getElementById("addStudentEmail").value;
     const Phone = document.getElementById("addStudentPhone").value;
     const Address = document.getElementById("addStudentAddress").value;
+
+    // Kiểm tra nếu bất kỳ trường nào còn trống
+    if (!Name || !Email || !Phone || !Address) {
+        alert("Vui lòng điền đầy đủ thông tin (Tên, Email, Số điện thoại, Địa chỉ).");
+        return; // Ngừng thực hiện nếu thiếu thông tin
+    }
+
+    // Nếu tất cả các kiểm tra đều hợp lệ, thực hiện gửi yêu cầu API
     const update = {
         name: Name,
         email: Email,
         phone: Phone,
         address: Address,
-    }
-    //console.log(update);
+    };
+
     const apiUrl = `http://localhost:8099/student/createStudent`;
     fetch(apiUrl, {
-        method: 'POST', // Sử dụng PUT để cập nhật
+        method: 'POST', // Sử dụng POST để tạo sinh viên mới
         headers: {
             'Content-Type': 'application/json',
         },
@@ -120,19 +131,20 @@ function addStudent() {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Lỗi khi cập nhật sinh viên');
+                throw new Error('Lỗi khi thêm sinh viên');
             }
             return response.json(); // Chuyển đổi phản hồi sang JSON
         })
         .then(data => {
-            //alert("Thêm giảng viên thành công");
-            //console.log('Giảng viên đã được cập nhật:', data);
-            // Làm gì đó sau khi cập nhật thành công (ví dụ: cập nhật giao diện)
+            // Hiển thị thông báo thành công hoặc xử lý sau khi thêm thành công
+            window.location.reload(); // Tải lại trang
         })
-        .catch(error => {
-            console.error('Lỗi:', error);
-        });
+//         .catch(error => {
+//             console.error('Lỗi:', error);
+//             alert("Có lỗi xảy ra, vui lòng thử lại.");
+//         });
 }
+
 
 function updateStudent() {
     const id = document.getElementById('studentId').value;
@@ -140,6 +152,13 @@ function updateStudent() {
     const Email = document.getElementById('updateStudentEmail').value;
     const Phone = document.getElementById('updateStudentPhone').value;
     const Address = document.getElementById('updateStudentAddress').value;
+
+    // Kiểm tra nếu bất kỳ trường nào còn trống
+    if (!Name || !Email || !Phone || !Address) {
+        alert("Vui lòng điền đầy đủ thông tin (Tên, Email, Số điện thoại, Địa chỉ).");
+        return; // Ngừng thực hiện nếu thiếu thông tin
+    }
+
     const update = {
         name: Name,
         email: Email,
@@ -158,6 +177,10 @@ function updateStudent() {
         .then(response => {
             if (!response.ok) {
                 throw new Error('Lỗi khi cập nhật sinh viên');
+                alert('Vui lòng kiểm tra lại số điện thoại và email');
+            }
+            if (response.ok) {
+                window.location.reload();
             }
             return response.json(); // Chuyển đổi phản hồi sang JSON
         })
