@@ -5,12 +5,15 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.stereotype.Service;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
 import javax.annotation.PostConstruct;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +27,10 @@ public class CoursesService {
 
     @PostConstruct
     public void init() {
-
         createCourseProc = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("CreateNewCourse");
     }
+
 
     public List<Map<String, Object>> getAllCourses() {
         String sql = "SELECT * FROM Courses";
@@ -42,7 +45,7 @@ public class CoursesService {
         params.put("EndDate", courseDTO.getEndDate());
         params.put("Tuition", courseDTO.getTuition());
         params.put("Description", courseDTO.getDescription());
-        params.put("Status", "not");
+        params.put("Status", "Available");
         params.put("StatusMessage", null); // Output parameter
 
         Map<String, Object> result = createCourseProc.execute(params);
