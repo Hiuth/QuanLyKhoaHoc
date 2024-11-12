@@ -22,9 +22,11 @@ public class InstructorsService {
     }
 
     public List<Map<String, Object>> searchInstructorsByName(String name) {
-        String sql = "SELECT * FROM instructors WHERE Name LIKE ?";
+        String sql = "SELECT * FROM Instructors WHERE Name LIKE ? OR Email LIKE ? OR Phone LIKE ?";
         String searchPattern = "%" + name + "%"; // Thêm ký tự % vào trước và sau chuỗi tìm kiếm
-        return jdbcTemplate.queryForList(sql, searchPattern);
+
+        // Truy vấn và truyền searchPattern ba lần, một lần cho mỗi cột
+        return jdbcTemplate.queryForList(sql, searchPattern, searchPattern, searchPattern);
     }
 
 

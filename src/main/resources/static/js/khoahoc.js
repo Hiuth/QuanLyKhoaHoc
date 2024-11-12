@@ -18,7 +18,7 @@ async function findInstructorById(id) {
     }
 }
 
-async function findAllInstructor(name) {
+async function findAllInstructor(name, name2) {
     const apiUrl = `http://localhost:8099/instructor/allInstructor`;
     try {
         const response = await fetch(apiUrl, {
@@ -36,22 +36,36 @@ async function findAllInstructor(name) {
         const selectElement = document.getElementById(element);
         selectElement.innerHTML = ''; // Xóa các tùy chọn cũ
 
+        // Tạo option mặc định "Chọn người hướng dẫn"
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.textContent = 'Chọn người hướng dẫn';
         selectElement.appendChild(defaultOption);
 
+        // Thêm các giảng viên vào select
         data.forEach(instructor => {
             const option = document.createElement('option');
-            option.value = instructor.InstructorID; // hoặc khóa chính phù hợp
-            option.textContent = instructor.Name; // hoặc tên trường dữ liệu phù hợp
+            option.value = instructor.InstructorID;
+            option.textContent = instructor.Name;
+
+            // Nếu name2 trùng với tên giảng viên, chọn nó
+            if (name2 && option.textContent === name2) {
+                option.selected = true;
+            }
+
             selectElement.appendChild(option);
         });
+
+        // Nếu name2 là chuỗi rỗng, chọn option mặc định
+        if (!name2) {
+            defaultOption.selected = true;
+        }
 
     } catch (error) {
         console.error('Lỗi:', error);
     }
 }
+
 
 
 async function fetchAllCourse() {
@@ -127,7 +141,7 @@ function showModalCourse(modalId,event) {
     document.getElementById('courseId').value = instructorId;
 
     const idName = 'CourseInstructor';
-    findAllInstructor(idName);
+    findAllInstructor(idName, instructorName);
 
 }
 // Hàm xóa khóa học

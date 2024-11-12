@@ -41,10 +41,12 @@ public class StudentsService {
     }
 
     public List<Map<String, Object>> searchStudentsByName(String name) {
-        String sql = "SELECT * FROM Students WHERE Name LIKE ?";
+        String sql = "SELECT * FROM Students WHERE Name LIKE ? OR Email LIKE ? OR Phone LIKE ?";
         String searchPattern = "%" + name + "%"; // Thêm ký tự % vào trước và sau chuỗi tìm kiếm
-        return jdbcTemplate.queryForList(sql, searchPattern);
+        // Truy vấn và truyền searchPattern ba lần, một lần cho mỗi cột
+        return jdbcTemplate.queryForList(sql, searchPattern, searchPattern, searchPattern);
     }
+
 
     public Map<String, Object> findStudentByEmail(String email) {
         String sql = "SELECT * FROM Students WHERE Email = ?";
