@@ -62,7 +62,7 @@
       <!-- Tab Học viên -->
       <div id="students" class="tab-content">
         <div class="search-bar">
-          <input type="text" placeholder="Tìm kiếm học viên..." />
+          <input type="text" id ="findStudent" placeholder="Tìm kiếm học viên..." />
           <button
             class="btn btn-primary btn-add-student"
             data-modal="studentModal"
@@ -76,28 +76,28 @@
               <th>Họ tên</th>
               <th>Email</th>
               <th>Số điện thoại</th>
-              <th>Ngày đăng ký</th>
+              <th>Địa chỉ</th>
               <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Lê Văn C</td>
-              <td>levanc@email.com</td>
-              <td>0123456789</td>
-              <td>15/01/2024</td>
-              <td>
-                <div class="action-buttons">
-                  <button
-                    class="btn-icon btn-edit"
-                    onclick="showModal('editStudentModal')"
-                  >
-                    ✎
-                  </button>
-                  <button class="btn-icon btn-delete">×</button>
-                </div>
-              </td>
-            </tr>
+<!--            <tr>-->
+<!--              <td>Lê Văn C</td>-->
+<!--              <td>levanc@email.com</td>-->
+<!--              <td>0123456789</td>-->
+<!--              <td>114/116 Tô Ngọc Vân, phường 15, Quận Gò Vấp</td>-->
+<!--              <td>-->
+<!--                <div class="action-buttons">-->
+<!--                  <button-->
+<!--                    class="btn-icon btn-edit"-->
+<!--                    onclick="showModal('editStudentModal')"-->
+<!--                  >-->
+<!--                    ✎-->
+<!--                  </button>-->
+<!--                  <button class="btn-icon btn-delete">×</button>-->
+<!--                </div>-->
+<!--              </td>-->
+<!--            </tr>-->
           </tbody>
         </table>
       </div>
@@ -288,25 +288,21 @@ Khóa học React nâng cao</textarea
             >
           </div>
           <form id="addStudentForm">
-            <div class="form-group">
+            <div class="form-group" >
               <label>Họ tên</label>
-              <input type="text" name="studentName" required />
+              <input type="text" id="addStudentName" name="studentName" required />
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="email" name="email" required />
+              <input type="email" id="addStudentEmail" name="email" required />
             </div>
             <div class="form-group">
               <label>Số điện thoại</label>
-              <input type="tel" name="phone" required />
-            </div>
-            <div class="form-group">
-              <label>Ngày sinh</label>
-              <input type="date" name="birthDate" required />
+              <input type="tel" id="addStudentPhone" name="phone" required />
             </div>
             <div class="form-group">
               <label>Địa chỉ</label>
-              <textarea name="address" rows="2"></textarea>
+               <input type="text" id ="addStudentAddress" name="phone" required />
             </div>
             <div class="form-footer">
               <button
@@ -316,7 +312,7 @@ Khóa học React nâng cao</textarea
               >
                 Hủy
               </button>
-              <button type="submit" class="btn btn-primary">Lưu</button>
+              <button type="submit" class="btn btn-primary" onclick="addStudent()">Lưu</button>
             </div>
           </form>
         </div>
@@ -331,18 +327,22 @@ Khóa học React nâng cao</textarea
               >&times;</span
             >
           </div>
-          <form>
+          <form class="updateStudent">
             <div class="form-group">
               <label>Họ tên</label>
-              <input type="text" required value="Lê Văn C" />
+              <input type="text" id="updateStudentName" required value="" />
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="email" required value="levanc@email.com" />
+              <input type="email" id ="updateStudentEmail" required value="" />
             </div>
             <div class="form-group">
               <label>Số điện thoại</label>
-              <input type="tel" required value="0123456789" />
+              <input type="tel" id ="updateStudentPhone" required value="" />
+            </div>
+            <div class="form-group">
+              <label>Địa chỉ</label>
+              <input type="text" id ="updateStudentAddress" required value="" />
             </div>
             <div class="form-footer">
               <button
@@ -352,7 +352,7 @@ Khóa học React nâng cao</textarea
               >
                 Hủy
               </button>
-              <button type="submit" class="btn btn-primary">Cập nhật</button>
+              <button type="submit" class="btn btn-primary" onclick="updateStudent()">Cập nhật</button>
             </div>
           </form>
         </div>
@@ -440,7 +440,8 @@ Khóa học React nâng cao</textarea
     </div>
     <script src="\QuanLyKhoaHoc\src\main\resources\static\js\qlkh.js"></script>
     <script src="\QuanLyKhoaHoc\src\main\resources\static\js\giangvien.js"></script>
-<!--  <script>updateInstructor()</script>-->
+    <script src="\QuanLyKhoaHoc\src\main\resources\static\js\student.js"></script>
     <script>fetchAllInstructors()</script>
+    <script>fetchAllStudent()</script>
   </body>
 </html>

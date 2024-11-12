@@ -67,6 +67,12 @@ function showModalInstructor(modalId) {
 }
 // Hàm xóa giảng viên
 function deleteInstructor() {
+
+    const confirmDelete = confirm("Bạn có chắc là bạn muốn xóa giảng viên này không?");
+    if (!confirmDelete) {
+        return; // Nếu chọn "Cancel", kết thúc hàm và không thực hiện lệnh xóa
+    }
+
     const button = event.target; // Lấy phần tử nút đã được nhấn
     const row = button.closest('tr'); // Tìm hàng <tr> chứa nút đó
     const id = row.querySelector('#instructorId').value;

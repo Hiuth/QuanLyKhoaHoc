@@ -21,13 +21,13 @@ public class StudentsService {
     }
 
     public int addStudent(StudentDTO studentDTO) {
-        String sql = "INSERT INTO Students (Name, Email, Phone) VALUES (?, ?, ?)";
-        return jdbcTemplate.update(sql, studentDTO.getName(), studentDTO.getEmail(), studentDTO.getPhone());
+        String sql = "INSERT INTO Students (Name, Email, Phone, Address) VALUES (?, ?, ?,?)";
+        return jdbcTemplate.update(sql, studentDTO.getName(), studentDTO.getEmail(), studentDTO.getPhone(),studentDTO.getAddress());
     }
 
     public int updateStudent(int studentId, StudentDTO studentDTO) {
-        String sql = "UPDATE Students SET Name = ?, Email = ?, Phone = ? WHERE StudentID = ?";
-        return jdbcTemplate.update(sql, studentDTO.getName(), studentDTO.getEmail(), studentDTO.getPhone(), studentId);
+        String sql = "UPDATE Students SET Name = ?, Email = ?, Phone = ?, Address = ? WHERE StudentID = ?";
+        return jdbcTemplate.update(sql, studentDTO.getName(), studentDTO.getEmail(), studentDTO.getPhone(),studentDTO.getAddress(), studentId);
     }
 
     public int deleteStudent(int studentId) {
