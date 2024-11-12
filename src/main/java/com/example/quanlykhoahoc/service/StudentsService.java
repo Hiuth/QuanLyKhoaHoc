@@ -20,6 +20,11 @@ public class StudentsService {
         return jdbcTemplate.queryForList(sql);
     }
 
+    public Map<String, Object> findStudentsById(int id) {
+        String sql = "SELECT * FROM Students where StudentID = ?";
+        return jdbcTemplate.queryForMap(sql,id);
+    }
+
     public int addStudent(StudentDTO studentDTO) {
         String sql = "INSERT INTO Students (Name, Email, Phone, Address) VALUES (?, ?, ?,?)";
         return jdbcTemplate.update(sql, studentDTO.getName(), studentDTO.getEmail(), studentDTO.getPhone(),studentDTO.getAddress());

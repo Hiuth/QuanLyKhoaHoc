@@ -22,6 +22,11 @@ public class CourseController {
         return ResponseEntity.ok(courses);
     }
 
+    @GetMapping("/findCourseById/{id}")
+    public ResponseEntity<Map<String, Object>>findCourseById(@PathVariable int id) {
+        Map<String, Object> courses = coursesService.findCourseById(id);
+        return ResponseEntity.ok(courses);
+    }
 
     @GetMapping("/findCourses/{key}")
     public ResponseEntity<List<Map<String, Object>>> findCourses(@PathVariable String key) {

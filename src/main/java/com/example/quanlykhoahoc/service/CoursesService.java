@@ -37,6 +37,11 @@ public class CoursesService {
         return jdbcTemplate.queryForList(sql);
     }
 
+    public Map<String, Object> findCourseById(int id) {
+        String sql = "SELECT * FROM Courses WHERE CourseID = ?";
+        return jdbcTemplate.queryForMap(sql,id);
+    }
+
     public String addCourse(CourseDTO courseDTO) {
         Map<String, Object> params = new HashMap<>();
         params.put("CourseName", courseDTO.getCourseName());
