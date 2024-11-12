@@ -57,13 +57,13 @@ function showModalStudent(modalId) {
     const address = row.querySelector('#studentAddress').textContent;
     const studentId = row.querySelector('#studentId').value;
 
-    console.log(name,email,phone,address,studentId);
+    //console.log(name,email,phone,address,studentId);
     // Cập nhật các trường trong form chỉnh sửa hoặc modal (ví dụ)
     document.getElementById('updateStudentName').value = name;
     document.getElementById('updateStudentEmail').value = email;
     document.getElementById('updateStudentPhone').value = phone;
     document.getElementById('updateStudentAddress').value = address;
-   document.getElementById('updateStudentId').value = studentId;
+    document.getElementById('studentId').value = studentId;
 }
 // Hàm xóa giảng viên
 function deleteStudent() {

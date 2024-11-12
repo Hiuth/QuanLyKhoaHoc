@@ -25,14 +25,81 @@ public class StudentsService {
         return jdbcTemplate.queryForMap(sql,id);
     }
 
+    public Map<String, Object> findStudentsByEmail(String id) {
+        String sql = "SELECT * FROM Students where Email= ?";
+        return jdbcTemplate.queryForMap(sql,id);
+    }
+
     public int addStudent(StudentDTO studentDTO) {
         String sql = "INSERT INTO Students (Name, Email, Phone, Address) VALUES (?, ?, ?,?)";
         return jdbcTemplate.update(sql, studentDTO.getName(), studentDTO.getEmail(), studentDTO.getPhone(),studentDTO.getAddress());
     }
 
-    public int updateStudent(int studentId, StudentDTO studentDTO) {
-        String sql = "UPDATE Students SET Name = ?, Email = ?, Phone = ?, Address = ? WHERE StudentID = ?";
-        return jdbcTemplate.update(sql, studentDTO.getName(), studentDTO.getEmail(), studentDTO.getPhone(),studentDTO.getAddress(), studentId);
+    public int updateStudent(int id, StudentDTO studentDTO) {
+        // Lấy thông tin sinh viên hiện tại
+        Map<String, Object> currentStudent = findStudentsById(id);
+
+        // Nếu không tìm thấy sinh viên, không thể cập nhật
+        if (currentStudent == null) {
+            return 0;
+        }
+
+        // Kiểm tra xem số điện thoại và email có thay đổi không
+        String currentPhone = (String) currentStudent.get("Phone");
+        String currentEmail = (String) currentStudent.get("Email");
+        boolean isPhoneChanged = !currentPhone.equals(studentDTO.getPhone());
+        boolean isEmailChanged = !currentEmail.equals(studentDTO.getEmail());
+
+        // Nếu số điện thoại thay đổi, kiểm tra xem số mới đã tồn tại chưa
+        if (isPhoneChanged && isPhoneExists(studentDTO.getPhone())) {
+            // Nếu email cũng thay đổi, kiểm tra xem email mới đã tồn tại chưa
+            if (isEmailChanged && isEmailExists(studentDTO.getEmail())) {
+                // Nếu cả số điện thoại và email đều đã tồn tại, chỉ cập nhật tên và địa chỉ
+                String sql = "UPDATE Students SET Name = ?, Address = ? WHERE StudentID = ?";
+                return jdbcTemplate.update(sql,
+                        studentDTO.getName(),
+                        studentDTO.getAddress(),
+                        id);
+            } else {
+                // Nếu số điện thoại đã tồn tại nhưng email chưa, cập nhật email, số điện thoại và tên
+                String sql = "UPDATE Students SET Name = ?, Email = ?, Phone = ?, Address = ? WHERE StudentID = ?";
+                return jdbcTemplate.update(sql,
+                        studentDTO.getName(),
+                        studentDTO.getEmail(),
+                        studentDTO.getPhone(),
+                        studentDTO.getAddress(),
+                        id);
+            }
+        } else if (isEmailChanged && isEmailExists(studentDTO.getEmail())) {
+            // Nếu email đã tồn tại nhưng số điện thoại chưa, cập nhật email và tên
+            String sql = "UPDATE Students SET Name = ?, Email = ?, Phone = ?, Address = ? WHERE StudentID = ?";
+            return jdbcTemplate.update(sql,
+                    studentDTO.getName(),
+                    studentDTO.getEmail(),
+                    studentDTO.getPhone(),
+                    studentDTO.getAddress(),
+                    id);
+        } else {
+            // Nếu cả số điện thoại và email đều hợp lệ, cập nhật tất cả thông tin
+            String sql = "UPDATE Students SET Name = ?, Email = ?, Phone = ?, Address = ? WHERE StudentID = ?";
+            return jdbcTemplate.update(sql,
+                    studentDTO.getName(),
+                    studentDTO.getEmail(),
+                    studentDTO.getPhone(),
+                    studentDTO.getAddress(),
+                    id);
+        }
+    }
+
+    private boolean isPhoneExists(String phone) {
+        String sql = "SELECT COUNT(*) FROM Students WHERE Phone = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, phone);
+        return count > 0;
+    }
+    private boolean isEmailExists(String email) {
+        String sql = "SELECT COUNT(*) FROM Students WHERE Email = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count > 0;
     }
 
     public int deleteStudent(int studentId) {
