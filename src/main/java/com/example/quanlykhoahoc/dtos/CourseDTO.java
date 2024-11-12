@@ -17,5 +17,5 @@ public class CourseDTO {
     private Date startDate;
     private Date endDate;
     private BigDecimal tuition;
-    //private String status;
+    private String status;
 }
