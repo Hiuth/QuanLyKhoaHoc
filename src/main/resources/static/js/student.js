@@ -179,14 +179,14 @@ document.addEventListener("DOMContentLoaded", function () {
             if (e.key === "Enter") {
                 e.preventDefault(); // Ngăn form submit nếu có
                 const query = searchInput.value;
-                findInstructor(query); // Gọi hàm tìm kiếm
+                findStudent(query); // Gọi hàm tìm kiếm
             }
         });
     }
 });
 
 
-function findInstructor() {
+function findStudent() {
     const key = document.getElementById("findStudent").value;
     const apiUrl = `http://localhost:8099/student/findStudents/${key}`;
     fetch(apiUrl, {

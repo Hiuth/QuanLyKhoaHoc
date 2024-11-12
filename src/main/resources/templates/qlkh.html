@@ -39,6 +39,7 @@
               <th>Ngày bắt đầu</th>
               <th>Ngày kết thúc</th>
               <th>Học Phí (VND)</th>
+              <th>Trạng thái</th>
               <th>Giảng viên</th>
               <th>Thao tác</th>
             </tr>
@@ -224,26 +225,31 @@
           <form>
             <div class="form-group">
               <label>Tên khóa học</label>
-              <input type="text" required />
+              <input type="text" id="addCourseName" required />
             </div>
             <div class="form-group">
               <label>Mô tả</label>
-              <textarea rows="3"></textarea>
+              <textarea rows="3" id="addCourseDescription" ></textarea>
             </div>
             <div class="form-group">
               <label>Ngày bắt đầu</label>
-              <input type="date" required />
+              <input type="date" id="addCourseStartDate" required />
             </div>
             <div class="form-group">
               <label>Ngày kết thúc</label>
-              <input type="date" required />
+              <input type="date" id="addCourseEndDate" required />
+            </div>
+            <div class="form-group">
+              <label>Học Phí (VND)</label>
+              <input type="number" id="addCourseTuition" required />
             </div>
             <div class="form-group">
               <label>Giảng viên</label>
-              <select required>
-                <option value="">Chọn giảng viên</option>
-                <option value="1">Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
+              <select id ="addCourseInstructor" required>
+
+<!--                <option value="">Chọn giảng viên</option>-->
+<!--                <option value="1">Nguyễn Văn A</option>-->
+<!--                <option value="2">Trần Thị B</option>-->
               </select>
             </div>
             <div class="form-footer">
@@ -254,7 +260,7 @@
               >
                 Hủy
               </button>
-              <button type="submit" class="btn btn-primary">Lưu</button>
+              <button type="submit" class="btn btn-primary" onclick="addCourse()">Lưu</button>
             </div>
           </form>
         </div>
@@ -294,6 +300,10 @@
               <input type="date" id="updateCourseEndDate" name="endDate" required value="" />
             </div>
             <div class="form-group">
+              <label>Học phí (VND)</label>
+              <input type="number" id="updateCourseTuition" name="tuition" required value="" />
+            </div>
+            <div class="form-group">
               <label>Giảng viên</label>
               <select name="instructor" id ="CourseInstructor" required>
 <!--                <option value="1" selected></option>-->
@@ -308,7 +318,7 @@
               >
                 Hủy
               </button>
-              <button type="submit" class="btn btn-primary">Cập nhật</button>
+              <button type="submit" class="btn btn-primary" onclick="updateCourse()">Cập nhật</button>
             </div>
           </form>
         </div>
@@ -481,5 +491,6 @@
     <script>fetchAllInstructors()</script>
     <script>fetchAllStudent()</script>
     <script>fetchAllCourse()</script>
+    <script> findAllInstructor('addCourseInstructor');</script>
   </body>
 </html>

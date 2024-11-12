@@ -32,8 +32,8 @@ async function findAllInstructor(name) {
         }
 
         const data = await response.json();
-
-        const selectElement = document.getElementById('CourseInstructor');
+        const element = name;
+        const selectElement = document.getElementById(element);
         selectElement.innerHTML = ''; // Xóa các tùy chọn cũ
 
         const defaultOption = document.createElement('option');
@@ -80,6 +80,7 @@ async function fetchAllCourse() {
                 <td id="courseStartDate">${course.StartDate}</td>
                 <td id="courseEndDate">${course.EndDate}</td>
                 <td id="courseTuition">${course.Tuition}</td>
+                <td id="courseStatus">${course.Status}</td>
                 <td id="courseInstructorName">${instructorName}</td>
                 <td>
                     <input type="hidden" name="courseId" id="courseId" value="${course.CourseID}">
@@ -113,30 +114,33 @@ function showModalCourse(modalId,event) {
     const startDate = row.querySelector('#courseStartDate').textContent;
     const endDate = row.querySelector('#courseEndDate').textContent;
     const instructorName = row.querySelector('#courseInstructorName').textContent;
+    const tuition = row.querySelector('#courseTuition').textContent;
     const instructorId = row.querySelector('#courseId').value;
 
-    console.log(name);
+    //console.log(name);
     // Cập nhật các trường trong form chỉnh sửa hoặc modal (ví dụ)
     document.getElementById('updateCourseName').value = name;
     document.getElementById('updateCourseDescription').value = description;
     document.getElementById('updateCourseStarDate').value = startDate;
     document.getElementById('updateCourseEndDate').value = endDate;
-    // document.getElementById('instructorExpertise').value =
-    findAllInstructor(instructorName);
-    //document.getElementById('instructorId').value = instructorId;
+    document.getElementById('updateCourseTuition').value = tuition;
+
+    const idName = 'CourseInstructor';
+    findAllInstructor(idName);
+
 }
 // Hàm xóa khóa học
 function deleteCourse() {
 
-    const confirmDelete = confirm("Bạn có chắc là bạn muốn xóa giảng viên này không?");
+    const confirmDelete = confirm("Bạn có chắc là bạn muốn xóa khóa học này không?");
     if (!confirmDelete) {
         return; // Nếu chọn "Cancel", kết thúc hàm và không thực hiện lệnh xóa
     }
 
     const button = event.target; // Lấy phần tử nút đã được nhấn
     const row = button.closest('tr'); // Tìm hàng <tr> chứa nút đó
-    const id = row.querySelector('#instructorId').value;
-    const apiUrl = `http://localhost:8099/instructor/deleteInstructor/${id}`;
+    const id = row.querySelector('#courseId').value;
+    const apiUrl = `http://localhost:8099/course/deleteCourse/${id}`;
     fetch(apiUrl, {
         method: 'DELETE', // Sử dụng PUT để cập nhật
         headers: {
@@ -154,18 +158,26 @@ function deleteCourse() {
         });
 }
 
-function addInstructor() {
-    const Name = document.getElementById("addInstructorName").value;
-    const Email = document.getElementById("addInstructorEmail").value;
-    const Phone = document.getElementById("addInstructorPhone").value;
-    const Expertise = document.getElementById("addInstructorExpertise").value;
+function addCourse() {
+    //const id = document.getElementById("courseId").value;
+    const Name = document.getElementById('addCourseName').value;
+    const Description= document.getElementById('addCourseDescription').value;
+    const StarDate = document.getElementById('addCourseStarDate').value;
+    const EndDate = document.getElementById('addCourseEndDate').value;
+    const Tuition = document.getElementById('addCourseTuition').value;
+    const selectElement = document.getElementById('addCourseInstructor');
+    const selectedValue = selectElement.value;
+    console.log(Name);
     const update = {
-        name: Name,
-        email: Email,
-        phone: Phone,
-        expertise: Expertise,
+        courseName: Name,
+        description: Description,
+        instructorId:selectedValue,
+        starDate: StarDate,
+        endDate: EndDate,
+        tuition: Tuition
     }
-    const apiUrl = `http://localhost:8099/instructor/createInstructor`;
+    console.log(update);
+    const apiUrl = `http://localhost:8099/course/createCourse`;
     fetch(apiUrl, {
         method: 'POST', // Sử dụng PUT để cập nhật
         headers: {
@@ -180,9 +192,6 @@ function addInstructor() {
             //return response.json(); // Chuyển đổi phản hồi sang JSON
         })
         .then(data => {
-            //alert("Thêm giảng viên thành công");
-            //console.log('Giảng viên đã được cập nhật:', data);
-            // Làm gì đó sau khi cập nhật thành công (ví dụ: cập nhật giao diện)
         })
         .catch(error => {
             console.error('Lỗi:', error);
@@ -195,15 +204,20 @@ function updateCourse() {
     const Description= document.getElementById('updateCourseDescription').value;
     const StarDate = document.getElementById('updateCourseStarDate').value;
     const EndDate = document.getElementById('updateCourseEndDate').value;
-
+    const Tuition = document.getElementById('updateCourseTuition').value;
+    const selectElement = document.getElementById('CourseInstructor');
+    const selectedValue = selectElement.value;
+    //console.log(selectedValue)
     const update = {
-        name: Name,
-        email: Description,
-        phone: StarDate,
-        expertise: EndDate,
+        courseName: Name,
+        description: Description,
+        instructorId:selectedValue,
+        startDate: StarDate,
+        endDate: EndDate,
+        tuition: Tuition
     }
-    // console.log(update);
-    const apiUrl = `http://localhost:8099/instructor/updateInstructor/${id}`;
+    console.log(update);
+    const apiUrl = `http://localhost:8099/course/updateCourse/${id}`;
     fetch(apiUrl, {
         method: 'PUT', // Sử dụng PUT để cập nhật
         headers: {
