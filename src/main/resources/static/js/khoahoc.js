@@ -124,6 +124,7 @@ function showModalCourse(modalId,event) {
     document.getElementById('updateCourseStarDate').value = startDate;
     document.getElementById('updateCourseEndDate').value = endDate;
     document.getElementById('updateCourseTuition').value = tuition;
+    document.getElementById('courseId').value = instructorId;
 
     const idName = 'CourseInstructor';
     findAllInstructor(idName);
@@ -177,7 +178,7 @@ async function addCourse() {
         endDate: endDate,
         tuition: tuition
     };
-    console.log(newCourse);
+    //console.log(newCourse);
     const apiUrl = 'http://localhost:8099/course/createCourse';
     try {
         const response = await fetch(apiUrl, {
@@ -196,7 +197,7 @@ async function addCourse() {
 
 
 function updateCourse() {
-    const id = document.getElementById("courseId").value;
+    const id = document.getElementById('courseId').value;
     const Name = document.getElementById('updateCourseName').value;
     const Description= document.getElementById('updateCourseDescription').value;
     const StarDate = document.getElementById('updateCourseStarDate').value;
@@ -213,7 +214,7 @@ function updateCourse() {
         endDate: EndDate,
         tuition: Tuition
     }
-    console.log(update);
+    console.log(id,update);
     const apiUrl = `http://localhost:8099/course/updateCourse/${id}`;
     fetch(apiUrl, {
         method: 'PUT', // Sử dụng PUT để cập nhật
@@ -226,7 +227,7 @@ function updateCourse() {
             if (!response.ok) {
                 throw new Error('Lỗi khi cập nhật giảng viên');
             }
-            return response.json(); // Chuyển đổi phản hồi sang JSON
+            //return response.json(); // Chuyển đổi phản hồi sang JSON
         })
         .then(data => {
             //console.log('Giảng viên đã được cập nhật:', data);
