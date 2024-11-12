@@ -196,3 +196,67 @@ async function addEnrollment() {
     }
 }
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Lấy các phần tử input và button
+    const searchInput = document.getElementById("findEnrollments");
+
+    // Kiểm tra xem các phần tử có tồn tại trước khi gán sự kiện
+    if (searchInput) {
+        // Sự kiện nhấn Enter trên ô input
+        searchInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault(); // Ngăn form submit nếu có
+                const query = searchInput.value;
+                findEnrollments(query); // Gọi hàm tìm kiếm
+            }
+        });
+    }
+});
+
+
+
+async function findEnrollments() {
+    const key = document.getElementById("findEnrollments").value;
+    const apiUrl = `http://localhost:8099/enrollments/findStudentAndCourse/${key}`;
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Lỗi khi gọi API');
+        }
+        const data = await response.json();
+        const courseList = document.querySelector('.enrollments-table tbody');
+        courseList.innerHTML = ''; // Xóa nội dung cũ
+
+        for (const enrollment of data) {
+            const studentName = await findStudentById(enrollment.StudentID);
+            const courseName = await findCourseById(enrollment.CourseID);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td id="enrollmentStudId">${enrollment.StudentID}</td>
+                <td id="enrollmentStuName">${studentName}</td>
+                <td id="enrollmentCourseId">${enrollment.CourseID}</td>
+                <td id="enrollmentCourseName">${courseName}</td>
+                <td id="enrollmentDate">${enrollment.EnrollmentDate}</td>
+                <td id="enrollmentCourseStatus">${enrollment.CompletionStatus}</td>
+                <td>
+                <input type="hidden" id="enrollmentId" value="${enrollment.EnrollmentID}" >
+                  <div class="action-buttons">
+                    <button class="btn-icon btn-delete" onclick="deleteEnrollment(event)">Hủy đăng ký</button>
+                  </div>
+                </td>
+            `;
+            courseList.appendChild(row); // Thêm row vào tbody
+        }
+    } catch (error) {
+        console.error('Lỗi:', error);
+    }
+}
+
+

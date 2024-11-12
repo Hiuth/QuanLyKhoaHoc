@@ -270,47 +270,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// function findCourse() {
-//     const key = document.getElementById("findCourse").value;
-//     const apiUrl = `http://localhost:8099/course/findCourses/${key}`;
-//     fetch(apiUrl, {
-//         method: 'GET', // Sử dụng PUT để cập nhật
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//     })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Lỗi khi cập nhật giảng viên');
-//             }
-//             return response.json(); // Chuyển đổi phản hồi sang JSON
-//         })
-//         .then(data => {
-//             const instructorList = document.querySelector('.instructors-table tbody');
-//             instructorList.innerHTML = ''; // Xóa nội dung cũ
-//
-//             data.forEach(instructor => {
-//                 const row = document.createElement('tr');
-//                 row.innerHTML = `
-//                     <td id="instructName">${instructor.Name}</td>
-//                     <td id="instructEmail">${instructor.Email}</td>
-//                     <td id="instructPhone">${instructor.Phone}</td>
-//                     <td id="instructExpertise">${instructor.Expertise}</td>
-//                     <td>
-//                     <input type="hidden" name="instructorId" id="instructorId" value="${instructor.InstructorID}">
-//                         <div class="action-buttons">
-//                             <button class="btn-icon btn-edit" onclick="showModalInstructor('editInstructorModal',event)">✎</button>
-//                             <button class="btn-icon btn-delete" onclick="deleteInstructor(event)">×</button>
-//                         </div>
-//                     </td>
-//                 `;
-//                 instructorList.appendChild(row); // Thêm row vào tbody
-//             });
-//         })
-//         .catch(error => {
-//             console.error('Lỗi:', error);
-//         });
-// }
 
 async function findCourse() {
     const key = document.getElementById("findCourse").value;

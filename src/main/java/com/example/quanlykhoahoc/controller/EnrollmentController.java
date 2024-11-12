@@ -24,6 +24,12 @@ public class EnrollmentController {
         return ResponseEntity.ok(courses);
     }
 
+    @GetMapping("/findStudentAndCourse/{name}")
+    public ResponseEntity<List<Map<String, Object>>> findStudentAndCourse(@PathVariable String name) {
+        List<Map<String, Object>> courses = enrollmentService.searchStudentsAndCourses(name);
+        return ResponseEntity.ok(courses);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<String> createEnrollments(@RequestBody EnrollmentDTO enrollment) {
         String status = enrollmentService.addEnrollments(enrollment);

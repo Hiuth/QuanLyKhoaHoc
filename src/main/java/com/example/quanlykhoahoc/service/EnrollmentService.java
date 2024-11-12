@@ -59,4 +59,18 @@ public class EnrollmentService {
         return statusMessage != null ? statusMessage : "Có lỗi xảy ra, vui lòng thử lại.";
     }
 
+    public List<Map<String, Object>> searchStudentsAndCourses(String searchTerm) {
+        String sql = "SELECT s.StudentID, s.Name, s.Email, s.Phone, " +
+                "c.CourseID, c.CourseName, c.Description, e.EnrollmentDate, e.CompletionStatus " +
+                "FROM Students s " +
+                "INNER JOIN Enrollments e ON s.StudentID = e.StudentID " +
+                "INNER JOIN Courses c ON e.CourseID = c.CourseID " +
+                "WHERE s.Name LIKE ? OR c.CourseName LIKE ?";
+
+        // Tạo tham số tìm kiếm và sử dụng dấu `%` cho tìm kiếm gần đúng
+        String searchPattern = "%" + searchTerm + "%";
+        // Truy vấn cơ sở dữ liệu và trả về kết quả dưới dạng List<Map<String, Object>>
+        return jdbcTemplate.queryForList(sql, searchPattern, searchPattern);
+    }
+
 }
