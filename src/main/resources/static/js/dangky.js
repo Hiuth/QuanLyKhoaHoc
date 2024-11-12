@@ -80,20 +80,27 @@ async function fetchAllEnrollment() {
     }
 }
 
-function deleteEnrollment(t) {
+function deleteEnrollment() {
     const confirmDelete = confirm("Bạn có chắc là bạn muốn xóa khóa học này không?");
     if (!confirmDelete) {
         return; // Nếu chọn "Cancel", kết thúc hàm và không thực hiện lệnh xóa
     }
     const button = event.target; // Lấy phần tử nút đã được nhấn
     const row = button.closest('tr'); // Tìm hàng <tr> chứa nút đó
-    const id = row.querySelector('#Id').value;
-    const apiUrl = `http://localhost:8099/enrollments/delete/${id}`;
+    const StudentId = row.querySelector('#enrollmentStudId').textContent;
+    const CourseId = row.querySelector('#enrollmentCourseId').textContent;
+    const course ={
+        studentId: StudentId,
+        courseId: CourseId
+    }
+    console.log(course);
+    const apiUrl = `http://localhost:8099/enrollments/delete`;
     fetch(apiUrl, {
-        method: 'DELETE', // Sử dụng PUT để cập nhật
+        method: 'POST', // Sử dụng PUT để cập nhật
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify(course)
     })
         .then(response => {
             if (!response.ok) {
