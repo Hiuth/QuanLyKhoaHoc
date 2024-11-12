@@ -15,7 +15,7 @@
           <button class="tab active" data-tab="courses">Khóa học</button>
           <button class="tab" data-tab="students">Học viên</button>
           <button class="tab" data-tab="instructors">Giảng viên</button>
-          <button class="tab" data-tab="registrations">Đăng ký</button>
+          <button class="tab" data-tab="enrollments">Đăng ký</button>
         </div>
       </div>
 
@@ -147,21 +147,54 @@
       </div>
 
       <!-- Tab Đăng ký -->
-      <div id="registrations" class="tab-content">
+      <div id="enrollments" class="tab-content">
+        <div class="search-bar">
+          <input type="text"  id ="findEnrollments" placeholder="Tìm kiếm khóa học..." />
+          <button
+                  class="btn btn-primary btn-add-instructor"
+                  data-modal="registrations"
+          >
+            + Thêm đăng ký
+          </button>
+        </div>
+        <table class="enrollments-table">
+          <thead>
+          <tr>
+            <th>Mã học viên</th>
+            <th>Tên học viên</th>
+            <th>Mã khóa học</th>
+            <th>Tên khóa học</th>
+            <th>Ngày đăng kí</th>
+            <th>Trạng thái học tập</th>
+            <th>Thao tác</th>
+          </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <td>1</td>
+                <td>Nguyễn Văn A</td>
+                <td>3</td>
+                <td>Hóa học lớp 10</td>
+                <td>20/10/2024</td>
+                <td>In Progress</td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-icon btn-delete">Hủy đăng ký</button>
+                  </div>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal đăng kí -->
+      <div id="registrations" class="modal">
         <div class="registration-form">
           <h2>Đăng ký khóa học</h2>
           <form>
             <div class="form-group">
-              <label>Họ tên học viên</label>
-              <input type="text" required />
-            </div>
-            <div class="form-group">
               <label>Email</label>
               <input type="email" required />
-            </div>
-            <div class="form-group">
-              <label>Số điện thoại</label>
-              <input type="tel" required />
             </div>
             <div class="form-group">
               <label>Khóa học</label>
