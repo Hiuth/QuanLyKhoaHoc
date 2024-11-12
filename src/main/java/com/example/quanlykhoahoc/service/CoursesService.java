@@ -2,11 +2,13 @@ package com.example.quanlykhoahoc.service;
 
 import com.example.quanlykhoahoc.dtos.CourseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -22,15 +24,14 @@ public class CoursesService {
 
     @PostConstruct
     public void init() {
-        getAllCoursesProc = new SimpleJdbcCall(jdbcTemplate)
-                .withProcedureName("GetAllCourses"); // Giả định tên stored procedure
+
         createCourseProc = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("CreateNewCourse");
     }
 
     public List<Map<String, Object>> getAllCourses() {
-        Map<String, Object> result = getAllCoursesProc.execute();
-        return (List<Map<String, Object>>) result.get("#result-set-1");
+        String sql = "SELECT * FROM Courses";
+        return jdbcTemplate.queryForList(sql);
     }
 
     public String addCourse(CourseDTO courseDTO) {
