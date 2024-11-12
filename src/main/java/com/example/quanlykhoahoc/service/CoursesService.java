@@ -24,11 +24,14 @@ public class CoursesService {
     private final JdbcTemplate jdbcTemplate;
     private SimpleJdbcCall getAllCoursesProc;
     private SimpleJdbcCall createCourseProc;
+    private SimpleJdbcCall updateCourseProc;
 
     @PostConstruct
     public void init() {
         createCourseProc = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("CreateNewCourse");
+        updateCourseProc = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("UpdateCourse");
     }
 
 
@@ -41,6 +44,7 @@ public class CoursesService {
         String sql = "SELECT * FROM Courses WHERE CourseID = ?";
         return jdbcTemplate.queryForMap(sql,id);
     }
+
 
     public String addCourse(CourseDTO courseDTO) {
         Map<String, Object> params = new HashMap<>();
@@ -57,9 +61,20 @@ public class CoursesService {
         return (String) result.get("StatusMessage");
     }
 
-    public int updateCourse(int courseId, CourseDTO courseDTO) {
-        String sql = "UPDATE Courses SET CourseName = ?, Description = ?, InstructorID = ?, StartDate = ?, EndDate = ?, Tuition = ? WHERE CourseID = ?";
-        return jdbcTemplate.update(sql, courseDTO.getCourseName(), courseDTO.getDescription(), courseDTO.getInstructorId(), courseDTO.getStartDate(), courseDTO.getEndDate(), courseDTO.getTuition(), courseId);
+    public String updateCourse(int courseId, CourseDTO courseDTO) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("CourseID", courseId);
+        params.put("CourseName", courseDTO.getCourseName());
+        params.put("InstructorID", courseDTO.getInstructorId());
+        params.put("StartDate", courseDTO.getStartDate());
+        params.put("EndDate", courseDTO.getEndDate());
+        params.put("Tuition", courseDTO.getTuition());
+        params.put("Description", courseDTO.getDescription());
+        params.put("Status", courseDTO.getStatus());
+        params.put("StatusMessage", null); // Output parameter
+
+        Map<String, Object> result = updateCourseProc.execute(params);
+        return (String) result.get("StatusMessage");
     }
 
     public int deleteCourse(int courseId) {
@@ -75,9 +90,4 @@ public class CoursesService {
 
 }
 
-// Gọi stored procedure để hủy đăng ký
-//    public void unregisterStudentFromCourse(int studentId, int courseId) {
-//        String sql = "{call UnregisterStudentFromCourse(?, ?)}";
-//        jdbcTemplate.update(sql, studentId, courseId);
-//    }
 

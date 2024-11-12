@@ -28,6 +28,12 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/findStudentByEmail/{email}")
+    public ResponseEntity<Map<String, Object>> findStudentByEmail(@PathVariable String email) {
+        Map<String, Object> students = studentsService.findStudentByEmail(email);
+        return ResponseEntity.ok(students);
+    }
+
     @GetMapping("/findStudents/{name}")
     public ResponseEntity<List<Map<String, Object>>> findStudents(@PathVariable String name) {
         List<Map<String, Object>> students = studentsService.searchStudentsByName(name);

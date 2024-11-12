@@ -45,12 +45,14 @@ public class CourseController {
     }
 
     @PutMapping("/updateCourse/{id}")
-    public ResponseEntity<?> updateCourse(@PathVariable int id, @RequestBody CourseDTO courseDTO) {
-        int result = coursesService.updateCourse(id, courseDTO);
-        if (result > 0) {
-            return ResponseEntity.ok("Cập nhật khóa học thành công");
+    public ResponseEntity<String> updateCourse(@PathVariable int id, @RequestBody CourseDTO courseDTO) {
+        String status = coursesService.updateCourse(id, courseDTO);
+        if (status.contains("thành công")) {
+            return ResponseEntity.ok(status);
+        } else if (status.contains("Không tìm thấy")) {
+            return ResponseEntity.status(404).body(status);
         } else {
-            return ResponseEntity.status(404).body("Không tìm thấy khóa học để cập nhật");
+            return ResponseEntity.status(500).body(status);
         }
     }
 

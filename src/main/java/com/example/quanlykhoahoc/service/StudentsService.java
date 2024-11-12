@@ -45,4 +45,9 @@ public class StudentsService {
         String searchPattern = "%" + name + "%"; // Thêm ký tự % vào trước và sau chuỗi tìm kiếm
         return jdbcTemplate.queryForList(sql, searchPattern);
     }
+
+    public Map<String, Object> findStudentByEmail(String email) {
+        String sql = "SELECT * FROM Students WHERE Email = ?";
+        return jdbcTemplate.queryForMap(sql,email);
+    }
 }

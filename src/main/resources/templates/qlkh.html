@@ -150,10 +150,11 @@
       <!-- Tab Đăng ký -->
       <div id="enrollments" class="tab-content">
         <div class="search-bar">
-          <input type="text"  id ="findEnrollments" placeholder="Tìm kiếm khóa học..." />
+          <input type="text" id ="findEnrollments"  placeholder="Tìm kiếm khóa học..." />
           <button
                   class="btn btn-primary btn-add-instructor"
                   data-modal="registrations"
+
           >
             + Thêm đăng ký
           </button>
@@ -195,18 +196,18 @@
           <form>
             <div class="form-group">
               <label>Email</label>
-              <input type="email" required />
+              <input type="email" id ="addEnrollmentEmail" required />
             </div>
             <div class="form-group">
               <label>Khóa học</label>
-              <select required>
-                <option value="">Chọn khóa học</option>
-                <option value="1">React Advanced</option>
-                <option value="2">Vue.js Cơ bản</option>
+              <select id="courseList" required>
+<!--                <option value="">Chọn khóa học</option>-->
+<!--                <option value="1">React Advanced</option>-->
+<!--                <option value="2">Vue.js Cơ bản</option>-->
               </select>
             </div>
             <div class="form-footer">
-              <button type="submit" class="btn btn-primary">Đăng ký</button>
+              <button type="button" class="btn btn-primary" onclick ="addEnrollment()">Đăng ký</button>
             </div>
           </form>
         </div>
@@ -491,6 +492,7 @@
     <script>fetchAllStudent()</script>
     <script>fetchAllCourse()</script>
     <script>fetchAllEnrollment()</script>
+    <script>findAllCourse()</script>
     <script> findAllInstructor('addCourseInstructor');</script>
   </body>
 </html>
