@@ -118,6 +118,7 @@ function addInstructor() {
     })
         .then(response => {
             if (!response.ok) {
+                alert('Vui lòng kiểm tra lại số điện thoại và email');
                 throw new Error('Lỗi khi cập nhật giảng viên');
             }
             if (response.ok) {
@@ -158,12 +159,13 @@ function updateInstructor() {
     })
         .then(response => {
             if (!response.ok) {
+                alert('Vui lòng kiểm tra lại số điện thoại và email');
                 throw new Error('Lỗi khi cập nhật giảng viên');
             }
             if (response.ok) {
                 window.location.reload();
             }
-            return response.json(); // Chuyển đổi phản hồi sang JSON
+            //return response.json(); // Chuyển đổi phản hồi sang JSON
         })
         .then(data => {
             //console.log('Giảng viên đã được cập nhật:', data);

@@ -131,13 +131,16 @@ function addStudent() {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Lỗi khi thêm sinh viên');
+                alert('Vui lòng kiểm tra lại số điện thoại và Email')
             }
-            return response.json(); // Chuyển đổi phản hồi sang JSON
+            //return response.json(); // Chuyển đổi phản hồi sang JSON
+            if (response.ok) {
+                window.location.reload();
+            }
         })
         .then(data => {
             // Hiển thị thông báo thành công hoặc xử lý sau khi thêm thành công
-            window.location.reload(); // Tải lại trang
+            // Tải lại trang
         })
 //         .catch(error => {
 //             console.error('Lỗi:', error);
@@ -176,13 +179,12 @@ function updateStudent() {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Lỗi khi cập nhật sinh viên');
-                alert('Vui lòng kiểm tra lại số điện thoại và email');
+                alert('Vui lòng kiểm tra lại số điện thoại và Email')
             }
+            //return response.json(); // Chuyển đổi phản hồi sang JSON
             if (response.ok) {
                 window.location.reload();
             }
-            return response.json(); // Chuyển đổi phản hồi sang JSON
         })
         .then(data => {
         })

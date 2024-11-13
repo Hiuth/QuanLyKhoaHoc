@@ -1,5 +1,9 @@
 // Đợi cho DOM load hoàn tất
-
+document.addEventListener("DOMContentLoaded", function () {
+  // Khởi tạo tất cả các sự kiện
+  restoreTabState();
+  initializeEvents();
+});
 
 function initializeEvents() {
   // Xử lý tabs
@@ -98,16 +102,16 @@ function initializeFormSubmits() {
       console.log("Form Data:", data);
 
       // Hiển thị thông báo thành công
-      alert("Đã lưu thành công!");
+      //alert("Đã lưu thành công!");
 
       // Đóng modal nếu form nằm trong modal
-      const modal = this.closest(".modal");
-      if (modal) {
-        hideModal(modal.id);
-      }
+      // const modal = this.closest(".modal");
+      // if (modal) {
+      //   hideModal(modal.id);
+      // }
 
       // Reset form
-      this.reset();
+      //this.reset();
     });
   });
 }
@@ -169,9 +173,3 @@ function restoreTabState() {
     switchTab(activeTabId);
   }
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  // Khởi tạo tất cả các sự kiện
-  restoreTabState();
-  initializeEvents();
-});

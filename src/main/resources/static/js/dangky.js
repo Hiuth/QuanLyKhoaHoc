@@ -106,7 +106,7 @@ function deleteEnrollment() {
             if (!response.ok) {
                 throw new Error('Lỗi khi xóa giảng viên');
             }
-            if (response.ok) {
+            if (response.ok){
                 window.location.reload();
             }
             //return response.json(); // Chuyển đổi phản hồi sang JSON
@@ -179,6 +179,17 @@ async function addEnrollment() {
     console.log(StudentId);
     const selectElement = document.getElementById('courseList');
     const selectedValue = selectElement.value;
+
+    if (!email || !selectedValue) {
+        alert("Vui lòng điền đầy đủ thông tin (Email, Lớp học).");
+        return false; // Ngừng thực hiện nếu thiếu thông tin
+    }
+
+    if (StudentId == "N/A"){
+        alert("Email bạn sử dụng chưa được đăng ký trong hệ thống");
+        return false; // Ngừng thực hiện nếu thiếu thông tin
+    }
+
     const newCourse = {
         studentId: StudentId,
         courseId: selectedValue
@@ -192,8 +203,23 @@ async function addEnrollment() {
             },
             body: JSON.stringify(newCourse)
         });
-        if (!response.ok) throw new Error('Lỗi khi thêm khóa học');
-        console.log("Khóa học đã được thêm thành công");
+        // Kiểm tra nếu phản hồi là JSON hay text
+        let result;
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+            result = await response.json();
+        } else {
+            result = await response.text();
+        }
+
+        // Xử lý phản hồi dựa trên loại dữ liệu
+        if (!response.ok) {
+            alert(result.statusMessage || result || "Có vẻ như Email của bạn chưa được đăng kí.");
+        } else {
+            alert(result.statusMessage || "Thành công!");
+            window.location.reload();
+        }
     } catch (error) {
         console.error('Lỗi:', error);
     }
